@@ -13,14 +13,14 @@ exports.signup = (req, res) => {
     password: bcrypt.hashSync(req.body.password, 8),
   });
 
-  user.save((err, user) => {
+  user.save(async (err, user) => {
     if (err) {
       res.status(500).send({ message: err });
       return;
     }
 
     if (req.body.roles) {
-      Role.find(
+      await Role.find(
         {
           name: { $in: req.body.roles },
         },
@@ -42,7 +42,7 @@ exports.signup = (req, res) => {
         }
       );
     } else {
-      Role.findOne({ name: "user" }, (err, role) => {
+      await Role.findOne({ name: "user" }, (err, role) => {
         if (err) {
           res.status(500).send({ message: err });
           return;
@@ -62,8 +62,8 @@ exports.signup = (req, res) => {
   });
 };
 
-exports.signin = (req, res) => {
-  User.findOne({
+exports.signin = async (req, res) => {
+  await User.findOne({
     username: req.body.username,
   })
     .populate("roles", "-__v")

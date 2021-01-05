@@ -11,6 +11,8 @@ module.exports = function (app) {
     next();
   });
 
+  // TEST API
+
   app.get("/api/test/all", controller.allAccess);
 
   app.get("/api/test/user", [authJwt.verifyToken], controller.userBoard);
@@ -26,4 +28,20 @@ module.exports = function (app) {
     [authJwt.verifyToken, authJwt.isAdmin],
     controller.adminBoard
   );
+
+  // USER CRUD
+
+  // GET //
+
+  app.get("/users/user/:id", controller.findUserById);
+
+  app.get("/users/user/me/:username", controller.findUserByUsername);
+
+  app.get("/users", controller.findAllUsers);
+
+  app.get("/users/:username", controller.findUsersByUsername);
+
+  // DELETE //
+
+  app.delete("/users/user/:id", controller.deleteOneById);
 };

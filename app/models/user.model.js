@@ -12,6 +12,12 @@ const User = mongoose.model(
         ref: "Role",
       },
     ],
+    streams: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Stream",
+      },
+    ],
   })
 );
 
