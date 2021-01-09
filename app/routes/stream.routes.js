@@ -15,6 +15,18 @@ module.exports = function (app) {
 
   app.post("/streams/stream", controller.createStream);
 
+  // GET //
+
+  app.get("/streams/stream/:id", controller.findStreamById);
+
+  app.get("/streams/stream/specific/:title", controller.findStreamByTitle);
+
+  app.get("/streams/specific/:owner", controller.findStreamsByOwner);
+
+  app.get("/streams/:title", controller.findStreamsByTitle);
+
+  app.get("/streams", controller.findAllStreams);
+
   // DELETE STREAM //
 
   app.delete("/streams/stream/:id", controller.deleteStreamById);
