@@ -63,6 +63,7 @@ const dbConfig = require("./app/config/db.config");
 const db = require("./app/models");
 const Role = db.role;
 
+// Mongo DB initialization
 db.mongoose
   .connect(
     `mongodb+srv://${dbConfig.USERNAME}:${dbConfig.PASSWORD}@erexdb.vmarh.mongodb.net/${dbConfig.BD}?retryWrites=true&w=majority`,

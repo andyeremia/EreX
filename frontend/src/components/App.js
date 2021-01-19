@@ -13,6 +13,7 @@ import StreamEdit from "./streams/StreamEdit";
 import StreamList from "./streams/StreamList";
 import StreamShow from "./streams/StreamShow";
 
+// lazy imports
 const HomeComponent = lazy(() => import("../components/page/home/home"));
 const RoomComponent = lazy(() =>
   import("../components/page/RoomComponent/RoomComponent")
