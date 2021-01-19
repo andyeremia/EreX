@@ -145,7 +145,7 @@ exports.findAllStreams = async (req, res) => {
     await Stream.find((err, streams) => {
       if (err) {
         console.log(err);
-        return status(404).send(err);
+        return res.status(404).send(err);
       } else {
         console.log("Streams found!");
         return res.status(200).send(streams);
@@ -158,7 +158,19 @@ exports.findAllStreams = async (req, res) => {
 };
 
 // UPDATE //
-// **************** //
+
+// exports.updateStreamById = async (req, res) => {
+//   try {
+//     await Stream.updateOne(
+//       {
+//         _id: req.
+//       }
+//     )
+//   } catch (error) {
+//     console.log(error);
+//     return res.status(503).send(error);
+//   }
+// }
 //  //
 exports.deleteStreamById = async (req, res) => {
   try {

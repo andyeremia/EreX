@@ -1,14 +1,57 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+import socketIO from "socket.io";
+import { v4 as uuidV4 } from "uuid";
 
 const app = express();
 
-var corsOptions = {
-  origin: "http://localhost:8081",
-};
+// var corsOptions = {
+//   origin: "http://localhost:8081",
+// };
 
-app.use(cors(corsOptions));
+app.use(cors());
+
+app.use(function (err, req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Credentials", "true");
+  res.header(
+    "Access-Control-Allow-Methods",
+    "GET,HEAD,OPTIONS,POST,PUT,DELETE"
+  );
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin,X-Requested-With, Content-Type, Accept, Authorization"
+  );
+  next();
+});
+
+// SOCKET IO
+io.on("connection", (socket) => {
+  console.log("socket established");
+  socket.on("join-room", (userData) => {
+    const { roomID, userID } = userData;
+    socket.join(roomID);
+    socket.to(roomID).broadcast.emit("new-user-connect", userData);
+    socket.on("disconnect", () => {
+      socket.to(roomID).broadcast.emit("user-disconnected", userID);
+    });
+    socket.on("broadcast-message", (message) => {
+      socket
+        .to(roomID)
+        .broadcast.emit("new-broadcast-messsage", { ...message, userData });
+    });
+    // socket.on('reconnect-user', () => {
+    //     socket.to(roomID).broadcast.emit('new-user-connect', userData);
+    // });
+    socket.on("display-media", (value) => {
+      socket.to(roomID).broadcast.emit("display-media", { userID, value });
+    });
+    socket.on("user-video-off", (value) => {
+      socket.to(roomID).broadcast.emit("user-video-off", value);
+    });
+  });
+});
 
 // parse requests of content-type - application/json
 app.use(bodyParser.json());
